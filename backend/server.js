@@ -20,6 +20,7 @@ const limiter = rateLimit({
 app.use('/api/', limiter);
 
 // ── ROUTES ────────────────────────────────────────────────────────────────────
+app.use(express.static('../frontend'));
 app.use('/api/query',  require('./routes/query'));
 app.use('/api/tables', require('./routes/tables'));
 app.use('/api/ctf',    require('./routes/ctf'));
