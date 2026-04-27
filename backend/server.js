@@ -10,6 +10,13 @@ const PORT = process.env.PORT || 3000;
 // ── SERVE FRONTEND FIRST ──────────────────────────────────────────────────────
 app.use(express.static(path.join(process.cwd(), 'frontend')));
 
+const fs = require('fs');
+app.get('/debug', (req, res) => {
+    const cwd = process.cwd();
+    const files = fs.readdirSync(cwd);
+    res.json({ cwd, files });
+});
+
 // ── MIDDLEWARE ────────────────────────────────────────────────────────────────
 app.use(cors());
 app.use(express.json());
