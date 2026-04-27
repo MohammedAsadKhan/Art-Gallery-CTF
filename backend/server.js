@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ── SERVE FRONTEND FIRST ──────────────────────────────────────────────────────
-app.use(express.static(path.join(process.cwd(), 'frontend')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const fs = require('fs');
 app.get('/debug', (req, res) => {

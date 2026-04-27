@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DBMS Art Gallery</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- SCANLINE OVERLAY -->
+  <div class="scanlines"></div>
+  <div class="noise"></div>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="logo-bracket">[</span>
+      <span class="logo-text">DBMS</span>
+      <span class="logo-accent">ArtGallery</span>
+      <span class="logo-bracket">]</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#home" class="nav-link active" data-section="home">HOME</a></li>
+      <li><a href="#database" class="nav-link" data-section="database">DATABASE</a></li>
+      <li><a href="#querylab" class="nav-link" data-section="querylab">QUERY LAB</a></li>
+      <li><a href="#ctf" class="nav-link" data-section="ctf">CTF</a></li>
+    </ul>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      <span class="status-text">CONNECTED</span>
+    </div>
+  </nav>
+
+  <!-- ── HOME ──────────────────────────────────────────────────────────────── -->
+  <section id="home" class="section active">
+    <div class="hero">
+      <div class="hero-grid"></div>
+      <div class="hero-content">
+        <div class="hero-tag">// COSC 3336 — DATABASE MANAGEMENT SYSTEMS</div>
+        <h1 class="hero-title">
+          <span class="title-line">DALLAS</span>
+          <span class="title-line accent">ART GALLERY</span>
+          <span class="title-line">SYSTEM</span>
+        </h1>
+        <p class="hero-sub">A fully normalized PostgreSQL database with an interactive CTF interface. Browse 50 artworks, run live SQL queries, and solve 5 cyber-mystery challenges.</p>
+        <div class="hero-stats">
+          <div class="stat-box">
+            <span class="stat-num">9</span>
+            <span class="stat-label">TABLES</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">50</span>
+            <span class="stat-label">ARTWORKS</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">5</span>
+            <span class="stat-label">CHALLENGES</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">3NF</span>
+            <span class="stat-label">NORMALIZED</span>
+          </div>
+        </div>
+        <div class="hero-buttons">
+          <button class="btn-primary" onclick="navigate('database')">BROWSE DATABASE</button>
+          <button class="btn-secondary" onclick="navigate('ctf')">START CTF</button>
+        </div>
+      </div>
+      <div class="hero-terminal">
+        <div class="terminal-header">
+          <span class="t-dot red"></span>
+          <span class="t-dot yellow"></span>
+          <span class="t-dot green"></span>
+          <span class="t-title">art_gallery — psql</span>
+        </div>
+        <div class="terminal-body" id="terminalBody">
+          <div class="t-line"><span class="t-prompt">postgres=#</span> <span class="t-cmd">\c art_gallery</span></div>
+          <div class="t-line"><span class="t-out">You are now connected to database "art_gallery".</span></div>
+          <div class="t-line"><span class="t-prompt">art_gallery=#</span> <span class="t-cmd">SELECT COUNT(*) FROM artworks;</span></div>
+          <div class="t-line"><span class="t-out"> count</span></div>
+          <div class="t-line"><span class="t-out">-------</span></div>
+          <div class="t-line"><span class="t-out">    50</span></div>
+          <div class="t-line"><span class="t-prompt">art_gallery=#</span> <span class="t-cmd">SELECT title FROM artworks LIMIT 3;</span></div>
+          <div class="t-line t-typing" id="typingLine"><span class="t-cursor">█</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-section">
+      <div class="section-label">// TEAM MAC</div>
+      <div class="team-cards">
+        <div class="team-card">
+          <div class="tc-role">LEAD PROGRAMMER</div>
+          <div class="tc-name">Mohammed Asad Khan</div>
+          <div class="tc-tag">Database Architect</div>
+        </div>
+        <div class="team-card">
+          <div class="tc-role">DATA MANAGER</div>
+          <div class="tc-name">Ashton Baker</div>
+          <div class="tc-tag">Query Testing</div>
+        </div>
+        <div class="team-card">
+          <div class="tc-role">DOCUMENTATION</div>
+          <div class="tc-name">Christina LaCombe</div>
+          <div class="tc-tag">Site Testing</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DATABASE ───────────────────────────────────────────────────────────── -->
+  <section id="database" class="section">
+    <div class="page-header">
+      <div class="section-label">// DATABASE BROWSER</div>
+      <h2 class="page-title">EXPLORE THE TABLES</h2>
+      <p class="page-sub">Select a table to view its contents. All data is live from PostgreSQL.</p>
+    </div>
+
+    <div class="table-selector">
+      <div class="ts-label">SELECT TABLE:</div>
+      <div class="ts-buttons" id="tableButtons"></div>
+    </div>
+
+    <div class="db-output" id="dbOutput">
+      <div class="db-placeholder">
+        <span class="placeholder-icon">▶</span>
+        <span>Select a table above to view its data</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── QUERY LAB ──────────────────────────────────────────────────────────── -->
+  <section id="querylab" class="section">
+    <div class="page-header">
+      <div class="section-label">// QUERY LABORATORY</div>
+      <h2 class="page-title">RUN SQL QUERIES</h2>
+      <p class="page-sub">Execute any SELECT query against the live art_gallery database.</p>
+    </div>
+
+    <div class="query-container">
+      <div class="query-editor-wrap">
+        <div class="qe-header">
+          <span class="qe-title">SQL EDITOR</span>
+          <div class="qe-actions">
+            <button class="qe-btn" onclick="clearQuery()">CLEAR</button>
+            <button class="qe-btn" onclick="loadExample()">EXAMPLE</button>
+          </div>
+        </div>
+        <textarea id="queryInput" class="query-editor" placeholder="SELECT * FROM artworks LIMIT 10;" spellcheck="false"></textarea>
+        <div class="query-footer">
+          <span class="qf-hint">Only SELECT queries allowed</span>
+          <button class="btn-primary" onclick="runQuery()">▶ EXECUTE</button>
+        </div>
+      </div>
+
+      <div class="example-queries">
+        <div class="eq-title">// QUICK EXAMPLES</div>
+        <div class="eq-list">
+          <div class="eq-item" onclick="setQuery('SELECT * FROM artworks ORDER BY estimated_value DESC LIMIT 10;')">Top 10 most valuable artworks</div>
+          <div class="eq-item" onclick="setQuery('SELECT ar.first_name || \' \' || ar.last_name AS artist, COUNT(*) AS artworks FROM artists ar JOIN artworks a ON ar.artist_id = a.artist_id GROUP BY ar.artist_id, ar.first_name, ar.last_name ORDER BY artworks DESC;')">Artworks per artist</div>
+          <div class="eq-item" onclick="setQuery('SELECT a.title, au.result, au.notes FROM authentications au JOIN artworks a ON au.artwork_id = a.artwork_id;')">All authentications</div>
+          <div class="eq-item" onclick="setQuery('SELECT title, estimated_value FROM artworks WHERE estimated_value > (SELECT AVG(estimated_value) FROM artworks) ORDER BY estimated_value DESC;')">Above average value</div>
+          <div class="eq-item" onclick="setQuery('SELECT gl.gallery_name, COUNT(a.artwork_id) as total FROM gallery_locations gl LEFT JOIN artworks a ON gl.location_id = a.current_location_id GROUP BY gl.location_id, gl.gallery_name ORDER BY total DESC;')">Artworks per location</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="query-results" id="queryResults">
+      <div class="db-placeholder">
+        <span class="placeholder-icon">▶</span>
+        <span>Results will appear here after execution</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTF ────────────────────────────────────────────────────────────────── -->
+  <section id="ctf" class="section">
+    <div class="page-header">
+      <div class="section-label">// CAPTURE THE FLAG</div>
+      <h2 class="page-title">SQL MYSTERY CHALLENGES</h2>
+      <p class="page-sub">Use SQL queries to solve 5 progressive mysteries hidden in the database. Each challenge unlocks the next.</p>
+    </div>
+
+    <div class="ctf-progress-bar">
+      <div class="cpb-label">PROGRESS: <span id="progressText">0 / 5</span></div>
+      <div class="cpb-track">
+        <div class="cpb-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <div class="ctf-grid" id="ctfGrid">
+      <!-- Challenges injected by JS -->
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-text">
+      DBMS Art Gallery — Team MAC — COSC 3336 — Texas A&M Corpus Christi — Spring 2026
+    </div>
+    <a href="https://github.com/MohammedAsadKhan/Art-Gallery-CTF" target="_blank" class="footer-link">VIEW ON GITHUB →</a>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
