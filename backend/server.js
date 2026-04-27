@@ -41,7 +41,7 @@ app.get('/api/health', (req, res) => {
 
 // Fallback — serve index.html for any unknown route
 app.get('/{*path}', (req, res) => {
-    res.sendFile(path.join(process.cwd(), 'frontend', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // ── START ─────────────────────────────────────────────────────────────────────
