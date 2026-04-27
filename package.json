@@ -1,0 +1,12 @@
+{
+  "name": "art-gallery-ctf",
+  "version": "1.0.0",
+  "description": "Dallas Art Gallery CTF Website",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "install": "cd backend && npm install"
+  },
+  "author": "Team MAC",
+  "license": "ISC"
+}
