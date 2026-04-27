@@ -166,6 +166,15 @@ document.addEventListener('keydown', (e) => {
   if (e.ctrlKey && e.key === 'Enter') runQuery();
 });
 
+// ── CTF ANSWERS ───────────────────────────────────────────────────────────────
+const ANSWERS = {
+  1: `SELECT a.title, au.result, au.notes\nFROM authentications au\nJOIN artworks a ON au.artwork_id = a.artwork_id\nWHERE au.result = 'Forgery';`,
+  2: `SELECT c.name, c.reputation_score\nFROM collectors c\nWHERE c.collector_id IN (\n  SELECT buyer_id FROM transactions\n  WHERE artwork_id IN (\n    SELECT artwork_id FROM authentications\n    WHERE result = 'Forgery'\n  )\n);`,
+  3: `SELECT title, estimated_value\nFROM artworks\nORDER BY estimated_value DESC\nLIMIT 1;`,
+  4: `SELECT ar.first_name || ' ' || ar.last_name AS artist,\n       COUNT(a.artwork_id) AS total_artworks\nFROM artists ar\nJOIN artworks a ON ar.artist_id = a.artist_id\nGROUP BY ar.artist_id, ar.first_name, ar.last_name\nORDER BY total_artworks DESC\nLIMIT 1;`,
+  5: `SELECT e.title, SUM(ea.insurance_value) AS total_insured\nFROM exhibitions e\nJOIN exhibition_artworks ea ON e.exhibition_id = ea.exhibition_id\nGROUP BY e.exhibition_id, e.title\nORDER BY total_insured DESC\nLIMIT 1;`,
+};
+
 // ── CTF ───────────────────────────────────────────────────────────────────────
 window.ctfLoaded = false;
 let solvedCount = 0;
@@ -226,7 +235,13 @@ function buildChallengeCard(challenge, isSolved, isLocked) {
       <textarea class="ctf-editor" id="editor-${challenge.id}" placeholder="-- Write your SQL query here\nSELECT ..."></textarea>
       <div class="ctf-submit-row">
         <button class="btn-primary" onclick="submitChallenge(${challenge.id})">▶ SUBMIT QUERY</button>
+        <button class="btn-reveal" onclick="toggleAnswer(${challenge.id})">👁 REVEAL ANSWER</button>
         <div class="ctf-feedback" id="feedback-${challenge.id}"></div>
+      </div>
+      <div class="answer-box" id="answer-${challenge.id}">
+        <div class="answer-label">// SOLUTION</div>
+        <pre class="answer-code">${ANSWERS[challenge.id]}</pre>
+        <button class="answer-use-btn" onclick="useAnswer(${challenge.id})">USE THIS QUERY →</button>
       </div>
       <div class="ctf-results" id="ctf-results-${challenge.id}"></div>
     </div>
@@ -239,6 +254,17 @@ function buildChallengeCard(challenge, isSolved, isLocked) {
   }
 
   return card;
+}
+
+function toggleAnswer(id) {
+  const box = document.getElementById(`answer-${id}`);
+  box.classList.toggle('open');
+}
+
+function useAnswer(id) {
+  const editor = document.getElementById(`editor-${id}`);
+  editor.value = ANSWERS[id];
+  document.getElementById(`answer-${id}`).classList.remove('open');
 }
 
 function toggleCard(id) {
