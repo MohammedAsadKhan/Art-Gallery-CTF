@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
-require('dotenv').config();
+require('dotenv').config({ override: false });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
