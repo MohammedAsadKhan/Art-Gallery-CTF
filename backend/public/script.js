@@ -1,6 +1,5 @@
 // ── CONFIG ────────────────────────────────────────────────────────────────────
-const API = 'https://art-gallery-ctf-production.up.railway.app/api';
-
+const API = 'https://art-gallery-ctf.onrender.com/api';
 // ── NAVIGATION ────────────────────────────────────────────────────────────────
 function navigate(section) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
