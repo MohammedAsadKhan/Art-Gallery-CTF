@@ -1,5 +1,5 @@
 // ── CONFIG ────────────────────────────────────────────────────────────────────
-const API = 'http://localhost:3000/api';
+const API = 'https://art-gallery-ctf-production.up.railway.app/api';
 
 // ── NAVIGATION ────────────────────────────────────────────────────────────────
 function navigate(section) {
