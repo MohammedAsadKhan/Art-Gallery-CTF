@@ -1,3 +1,4 @@
+
 -- ============================================================
 -- Dallas Art Gallery Management System
 -- Phase 3: Database Creation
