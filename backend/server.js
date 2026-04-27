@@ -33,7 +33,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // Fallback — serve index.html for any unknown route
-app.get('*', (req, res) => {
+app.get('/{*path}', (req, res) => {
     res.sendFile(path.join(process.cwd(), 'frontend', 'index.html'));
 });
 
